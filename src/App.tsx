@@ -1,13 +1,15 @@
 import React from "react";
-import { useSynth } from "./synth";
+import PlaySection from "./components/PlaySection";
+import WaveSection from "./components/WaveSection";
+import { useSynth } from "./hooks/synth";
 
 function App() {
-    const { start, stop } = useSynth();
+    const { start, stop, wave, setWave } = useSynth();
 
     return (
         <>
-            <button onClick={start}>Start</button>
-            <button onClick={stop}>Stop</button>
+            <WaveSection wave={wave} onWaveFormChanged={setWave} />
+            <PlaySection onStart={start} onStop={stop} />
         </>
     );
 }

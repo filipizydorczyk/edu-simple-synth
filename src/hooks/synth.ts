@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { WaveFromFunctions } from "../utils";
 
 export const SAMPLE_RATE = 44100;
 export const DURATION = 5;
 export const FREQUENCY = 440;
+
+export type WaveForm = "sin" | "noise";
 
 /**
  * I am ingoring warning
@@ -14,12 +17,16 @@ export const FREQUENCY = 440;
  */
 export const useSynth = () => {
     const [audioSource, setAudioSource] = useState<AudioBufferSourceNode>();
+    const [waveFromFn, setWaveFromFn] = useState<WaveForm>("sin");
 
     const numSamples = SAMPLE_RATE * DURATION;
     const samples = new Float32Array(numSamples);
 
     for (let i = 0; i < numSamples; i++) {
-        samples[i] = Math.sin((2 * Math.PI * FREQUENCY * i) / SAMPLE_RATE);
+        samples[i] =
+            WaveFromFunctions[waveFromFn](
+                (2 * Math.PI * FREQUENCY * i) / SAMPLE_RATE
+            ) / 4;
     }
 
     const audioCtx = new AudioContext();
@@ -47,5 +54,5 @@ export const useSynth = () => {
         audioSource?.stop();
     };
 
-    return { start, stop };
+    return { start, stop, wave: waveFromFn, setWave: setWaveFromFn };
 };
