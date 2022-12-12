@@ -18,6 +18,7 @@ export type WaveForm = "sin" | "noise";
 export const useSynth = () => {
     const [audioSource, setAudioSource] = useState<AudioBufferSourceNode>();
     const [waveFromFn, setWaveFromFn] = useState<WaveForm>("sin");
+    const [volume, setVolume] = useState(1);
 
     const numSamples = SAMPLE_RATE * DURATION;
     const samples = new Float32Array(numSamples);
@@ -26,7 +27,7 @@ export const useSynth = () => {
         samples[i] =
             WaveFromFunctions[waveFromFn](
                 (2 * Math.PI * FREQUENCY * i) / SAMPLE_RATE
-            ) / 4;
+            ) * volume;
     }
 
     const audioCtx = new AudioContext();
@@ -54,5 +55,12 @@ export const useSynth = () => {
         audioSource?.stop();
     };
 
-    return { start, stop, wave: waveFromFn, setWave: setWaveFromFn };
+    return {
+        start,
+        stop,
+        wave: waveFromFn,
+        setWave: setWaveFromFn,
+        volume,
+        setVolume,
+    };
 };
