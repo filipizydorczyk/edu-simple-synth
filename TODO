@@ -1,3 +1,8 @@
 -   make volume working with already played buffer
 -   make UI nice + add waveform visualization
 -   refactor code + conmsider using context
+-   implement LFO
+-   implement ENV
+-   implement OSCILATORS
+-   UNISON and PHASE???
+-   keyuboard and midi inputs???
