@@ -5,6 +5,8 @@ export const SAMPLE_RATE = 44100;
 export const DURATION = 5;
 export const FREQUENCY = 440;
 
+export const NUM_SAMPLES = SAMPLE_RATE * DURATION;
+
 export type WaveForm = "sin" | "noise";
 
 /**
@@ -20,10 +22,9 @@ export const useSynth = () => {
     const [waveFromFn, setWaveFromFn] = useState<WaveForm>("sin");
     const [volume, setVolume] = useState(1);
 
-    const numSamples = SAMPLE_RATE * DURATION;
-    const samples = new Float32Array(numSamples);
+    const samples = new Float32Array(NUM_SAMPLES);
 
-    for (let i = 0; i < numSamples; i++) {
+    for (let i = 0; i < NUM_SAMPLES; i++) {
         samples[i] =
             WaveFromFunctions[waveFromFn](
                 (2 * Math.PI * FREQUENCY * i) / SAMPLE_RATE
@@ -31,10 +32,10 @@ export const useSynth = () => {
     }
 
     const audioCtx = new AudioContext();
-    const audioBuffer = audioCtx.createBuffer(1, numSamples, SAMPLE_RATE);
+    const audioBuffer = audioCtx.createBuffer(1, NUM_SAMPLES, SAMPLE_RATE);
     const audioData = audioBuffer.getChannelData(0);
 
-    for (let i = 0; i < numSamples; i++) {
+    for (let i = 0; i < NUM_SAMPLES; i++) {
         audioData[i] = samples[i];
     }
 
