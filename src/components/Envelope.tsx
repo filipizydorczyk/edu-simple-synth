@@ -1,6 +1,8 @@
 import React from "react";
 import { Grid, Paper, Slider } from "@mui/material";
+import { Donut } from "react-dial-knob";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
+import KnobInput from "./KnobInput";
 
 type EnvelopeProps = {};
 
@@ -10,7 +12,7 @@ function Envelope({}: EnvelopeProps) {
       style={{ padding: "1rem", margin: "1rem", minHeight: 500 }}
       elevation={3}
     >
-      <Grid container spacing={2} height={500} style={{textAlign: "center"}}>
+      <Grid container spacing={2} height={500} style={{ textAlign: "center" }}>
         <Grid item xs={12}>
           <ResponsiveContainer height="100%" width="100%">
             <LineChart
@@ -33,22 +35,22 @@ function Envelope({}: EnvelopeProps) {
           </ResponsiveContainer>
         </Grid>
         <Grid item xs={2}>
-          Delay
+          <KnobInput name="Delay" value={15} />
         </Grid>
         <Grid item xs={2}>
-          Attack
+          <KnobInput name="Attack" value={15} />
         </Grid>
         <Grid item xs={2}>
-          Hold
+          <KnobInput name="Hold" value={15} />
         </Grid>
         <Grid item xs={2}>
-          Decay
+          <KnobInput name="Decay" value={15} />
         </Grid>
         <Grid item xs={2}>
-          Sustain
+          <KnobInput name="Sustain" value={15} />
         </Grid>
         <Grid item xs={2}>
-          Release
+          <KnobInput name="Release" value={15} />
         </Grid>
       </Grid>
     </Paper>

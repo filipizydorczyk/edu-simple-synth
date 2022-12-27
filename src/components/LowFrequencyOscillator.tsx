@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Paper, Slider } from "@mui/material";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
+import MultipleSelect from "./MultipleSelect";
 
 type LowFrequencyOscillatorProps = {};
 
@@ -33,7 +34,7 @@ function LowFrequencyOscillator({}: LowFrequencyOscillatorProps) {
           </ResponsiveContainer>
         </Grid>
         <Grid item xs={12} justifyContent="center">
-          <p>CONNECTIONS</p>
+          <MultipleSelect/>
         </Grid>
       </Grid>
     </Paper>
