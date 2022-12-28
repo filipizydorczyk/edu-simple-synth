@@ -8,7 +8,7 @@ type LowFrequencyOscillatorProps = {};
 function LowFrequencyOscillator({}: LowFrequencyOscillatorProps) {
   return (
     <Paper
-      style={{ padding: "1rem", margin: "1rem", minHeight: 500 }}
+      style={{ padding: "1rem", minHeight: 500 }}
       elevation={3}
     >
       <Grid container spacing={2} height={500} style={{textAlign: "center"}}>

@@ -1,10 +1,7 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import Envelope from "./components/Envelope";
-import LowFrequencyOscillator from "./components/LowFrequencyOscillator";
-import Oscilator from "./components/Oscilator";
-import PlaySection from "./components/PlaySection";
-import WaveSection from "./components/WaveSection";
+import LowFrequencyOscillatorList from "./components/LowFrequencyOscillatorList";
+import WaveFormComponentsList from "./components/WaveFormComponentsList";
 import { useSynth } from "./hooks/synth";
 
 function App() {
@@ -20,14 +17,11 @@ function App() {
                 volume={volume * 10}
             /> */}
       <Grid container spacing={1} style={{ textAlign: "center" }}>
-        <Grid item xs={4}>
-          <Oscilator />
+        <Grid item xs={8}>
+          <WaveFormComponentsList/>
         </Grid>
         <Grid item xs={4}>
-          <Envelope />
-        </Grid>
-        <Grid item xs={4}>
-          <LowFrequencyOscillator />
+          <LowFrequencyOscillatorList />
         </Grid>
       </Grid>
     </>
