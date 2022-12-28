@@ -2,11 +2,11 @@ import React from "react";
 import { Grid, MenuItem, Paper, Select, Slider } from "@mui/material";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 import { WaveForm } from "../hooks/synth";
+import DoubleNumberInput from "./DoubleNumberInput";
 
 type OscilatorProps = {};
 
 function Oscilator({}: OscilatorProps) {
-  
   const Labels: Record<WaveForm, string> = {
     sin: "Sinus Wave",
     noise: "Random noise",
@@ -43,9 +43,10 @@ function Oscilator({}: OscilatorProps) {
           <Slider aria-label="Volume" orientation="vertical" />
         </Grid>
         <Grid item xs={6}>
+          <label>Waveform</label>
           <Select
             value="sin"
-            sx={{ m: 1, width: "100%" }}
+            sx={{ width: "100%" }}
             // onChange={(event) =>
             //     onWaveFormChanged(event.target.value as WaveForm)
             // }
@@ -56,10 +57,21 @@ function Oscilator({}: OscilatorProps) {
           </Select>
         </Grid>
         <Grid item xs={3}>
-          UNISON
+          <DoubleNumberInput
+            name="Unison"
+            firstValue={0}
+            firstUnint="v"
+            secondValue={0}
+            secondUnint="%"
+          />
         </Grid>
         <Grid item xs={3}>
-          PHASE
+          <DoubleNumberInput
+            name="Phase"
+            firstValue={0}
+            secondValue={0}
+            secondUnint="%"
+          />
         </Grid>
       </Grid>
     </Paper>
