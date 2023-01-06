@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Grid } from "@mui/material";
-import LowFrequencyOscillator from "./LowFrequencyOscillator";
+import LowFrequencyOscillator from "../components/LowFrequencyOscillator";
 
 function LowFrequencyOscillatorList() {
   return (

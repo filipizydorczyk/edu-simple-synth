@@ -1,6 +1,5 @@
 import React from "react";
-import { Grid, Paper, Slider } from "@mui/material";
-import { Donut } from "react-dial-knob";
+import { Grid, Paper } from "@mui/material";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 import KnobInput from "./KnobInput";
 

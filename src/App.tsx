@@ -1,21 +1,14 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import LowFrequencyOscillatorList from "./components/LowFrequencyOscillatorList";
-import WaveFormComponentsList from "./components/WaveFormComponentsList";
-import { useSynth } from "./hooks/synth";
+import LowFrequencyOscillatorList from "./contextual/LowFrequencyOscillatorList";
+import WaveFormComponentsList from "./contextual/WaveFormComponentsList";
+import { SynthProvider } from "./contexts/synth-context";
+import MIDIKeyboard from "./contextual/MIDIKeyboard";
+
 
 function App() {
-  const { start, stop, wave, setWave, volume, setVolume } = useSynth();
-
   return (
-    <>
-      {/* <WaveSection wave={wave} onWaveFormChanged={setWave} />
-            <PlaySection
-                onStart={start}
-                onStop={stop}
-                onVolumeChanged={(val) => setVolume(val / 10)}
-                volume={volume * 10}
-            /> */}
+    <SynthProvider>
       <Grid container spacing={1} style={{ textAlign: "center" }}>
         <Grid item xs={8}>
           <WaveFormComponentsList/>
@@ -24,7 +17,8 @@ function App() {
           <LowFrequencyOscillatorList />
         </Grid>
       </Grid>
-    </>
+      <MIDIKeyboard style={{position:"absolute", bottom: 0, left: 0}}/>
+    </SynthProvider>
   );
 }
 

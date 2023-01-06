@@ -4,19 +4,28 @@ import { Line, LineChart, ResponsiveContainer } from "recharts";
 import { WaveForm } from "../hooks/synth";
 import DoubleNumberInput from "./DoubleNumberInput";
 
-type OscilatorProps = {};
+type OscilatorProps = {
+  wave: WaveForm;
+  volume: number;
+  onWaveFormChanged?: (wave: WaveForm) => void;
+  onVolumeChanged?: (volume: number) => void;
+};
 
-function Oscilator({}: OscilatorProps) {
+const VOLUME_MULTIPLIER = 100;
+
+function Oscilator({
+  wave,
+  volume,
+  onWaveFormChanged = () => {},
+  onVolumeChanged = () => {},
+}: OscilatorProps) {
   const Labels: Record<WaveForm, string> = {
     sin: "Sinus Wave",
     noise: "Random noise",
   };
 
   return (
-    <Paper
-      style={{ padding: "1rem", minHeight: 500 }}
-      elevation={3}
-    >
+    <Paper style={{ padding: "1rem", minHeight: 500 }} elevation={3}>
       <Grid container spacing={2} height={500} style={{ textAlign: "center" }}>
         <Grid item xs={11}>
           <ResponsiveContainer height="100%" width="100%">
@@ -40,16 +49,23 @@ function Oscilator({}: OscilatorProps) {
           </ResponsiveContainer>
         </Grid>
         <Grid item xs={1}>
-          <Slider aria-label="Volume" orientation="vertical" />
+          <Slider
+            aria-label="Volume"
+            orientation="vertical"
+            value={volume * VOLUME_MULTIPLIER}
+            onChange={(_, value) => {
+              onVolumeChanged((value as number) / VOLUME_MULTIPLIER);
+            }}
+          />
         </Grid>
         <Grid item xs={6}>
           <label>Waveform</label>
           <Select
-            value="sin"
+            value={wave}
             sx={{ width: "100%" }}
-            // onChange={(event) =>
-            //     onWaveFormChanged(event.target.value as WaveForm)
-            // }
+            onChange={(event) =>
+              onWaveFormChanged(event.target.value as WaveForm)
+            }
           >
             {Object.keys(Labels).map((key) => (
               <MenuItem value={key}>{Labels[key as WaveForm]}</MenuItem>

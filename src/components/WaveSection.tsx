@@ -30,7 +30,6 @@ function WaveSection({ wave, onWaveFormChanged }: WaveSectionProps) {
         }
 
         setSamples(newArray);
-        console.log(newArray, NUM_SAMPLES);
     }, [wave]);
 
     return (

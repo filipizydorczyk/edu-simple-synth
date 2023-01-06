@@ -9,6 +9,15 @@ export const NUM_SAMPLES = SAMPLE_RATE * DURATION;
 
 export type WaveForm = "sin" | "noise";
 
+export type Synth = {
+  wave: WaveForm;
+  volume: number;
+  start: () => void;
+  stop: () => void;
+  setWave: React.Dispatch<React.SetStateAction<WaveForm>>;
+  setVolume: React.Dispatch<React.SetStateAction<number>>;
+};
+
 /**
  * I am ingoring warning
  *
@@ -17,51 +26,51 @@ export type WaveForm = "sin" | "noise";
  * because what is not allowed is starting/resuming the context without a user gesture not to create the context without a user gesture
  * @return object with funtions to interact with synth
  */
-export const useSynth = () => {
-    const [audioSource, setAudioSource] = useState<AudioBufferSourceNode>();
-    const [waveFromFn, setWaveFromFn] = useState<WaveForm>("sin");
-    const [volume, setVolume] = useState(1);
+export const useSynth = (): Synth => {
+  const [audioSource, setAudioSource] = useState<AudioBufferSourceNode>();
+  const [waveFromFn, setWaveFromFn] = useState<WaveForm>("sin");
+  const [volume, setVolume] = useState(1);
 
-    const samples = new Float32Array(NUM_SAMPLES);
+  const samples = new Float32Array(NUM_SAMPLES);
 
-    for (let i = 0; i < NUM_SAMPLES; i++) {
-        samples[i] =
-            WaveFromFunctions[waveFromFn](
-                (2 * Math.PI * FREQUENCY * i) / SAMPLE_RATE
-            ) * volume;
+  for (let i = 0; i < NUM_SAMPLES; i++) {
+    samples[i] =
+      WaveFromFunctions[waveFromFn](
+        (2 * Math.PI * FREQUENCY * i) / SAMPLE_RATE
+      ) * volume;
+  }
+
+  const audioCtx = new AudioContext();
+  const audioBuffer = audioCtx.createBuffer(1, NUM_SAMPLES, SAMPLE_RATE);
+  const audioData = audioBuffer.getChannelData(0);
+
+  for (let i = 0; i < NUM_SAMPLES; i++) {
+    audioData[i] = samples[i];
+  }
+
+  const start = () => {
+    const source = audioCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(audioCtx.destination);
+    source.start();
+
+    if (audioSource) {
+      audioSource.stop();
     }
 
-    const audioCtx = new AudioContext();
-    const audioBuffer = audioCtx.createBuffer(1, NUM_SAMPLES, SAMPLE_RATE);
-    const audioData = audioBuffer.getChannelData(0);
+    setAudioSource(source);
+  };
 
-    for (let i = 0; i < NUM_SAMPLES; i++) {
-        audioData[i] = samples[i];
-    }
+  const stop = () => {
+    audioSource?.stop();
+  };
 
-    const start = () => {
-        const source = audioCtx.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(audioCtx.destination);
-        source.start();
-
-        if (audioSource) {
-            audioSource.stop();
-        }
-
-        setAudioSource(source);
-    };
-
-    const stop = () => {
-        audioSource?.stop();
-    };
-
-    return {
-        start,
-        stop,
-        wave: waveFromFn,
-        setWave: setWaveFromFn,
-        volume,
-        setVolume,
-    };
+  return {
+    start,
+    stop,
+    wave: waveFromFn,
+    setWave: setWaveFromFn,
+    volume,
+    setVolume,
+  };
 };
