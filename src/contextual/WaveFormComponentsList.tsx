@@ -5,16 +5,19 @@ import Envelope from "../components/Envelope";
 import { useSynthContext } from "../contexts/synth-context";
 
 function WaveFormComponentsList() {
-  const { synth } = useSynthContext();
+  const { oscilator } = useSynthContext();
+  const [volume, setVolume] = oscilator.volume;
+  const [wave, setWave] = oscilator.wave;
 
   return (
     <Grid spacing={1} container style={{ textAlign: "center" }}>
       <Grid item xs={6}>
         <Oscilator
-          wave={synth.wave}
-          volume={synth.volume}
-          onWaveFormChanged={synth.setWave}
-          onVolumeChanged={synth.setVolume}
+          wave={wave}
+          volume={volume}
+          samples={oscilator.samples}
+          onWaveFormChanged={setWave}
+          onVolumeChanged={setVolume}
         />
       </Grid>
       <Grid item xs={6}>

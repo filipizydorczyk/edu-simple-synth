@@ -1,4 +1,4 @@
-import { WaveForm } from "./hooks/synth";
+import { WaveForm } from "./hooks/useOscilator";
 
 export const WaveFromFunctions: Record<WaveForm, (input: number) => number> = {
     sin: Math.sin,

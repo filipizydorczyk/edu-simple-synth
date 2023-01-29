@@ -1,7 +1,9 @@
 import { createContext, FC, useContext } from "react";
-import { Synth, useSynth } from "../hooks/synth";
+import { Oscilator, useOscilator } from "../hooks/useOscilator";
+import { Synth, useSynth } from "../hooks/useSynth";
 
 type SynthContextProps = {
+  oscilator: Oscilator;
   synth: Synth;
 };
 
@@ -10,10 +12,11 @@ type SynthContextProps = {
 const SynthContext = createContext<SynthContextProps>(undefined!);
 
 const SynthProvider: FC<{ children: JSX.Element[] }> = ({ children }) => {
-  const synth = useSynth();
+  const oscilator = useOscilator();
+  const synth = useSynth(oscilator);
 
   return (
-    <SynthContext.Provider value={{ synth }}>{children}</SynthContext.Provider>
+    <SynthContext.Provider value={{ oscilator, synth }}>{children}</SynthContext.Provider>
   );
 };
 

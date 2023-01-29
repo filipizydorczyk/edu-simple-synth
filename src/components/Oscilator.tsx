@@ -1,21 +1,24 @@
 import React from "react";
 import { Grid, MenuItem, Paper, Select, Slider } from "@mui/material";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
-import { WaveForm } from "../hooks/synth";
+import { NUM_SAMPLES, WaveForm } from "../hooks/useOscilator";
 import DoubleNumberInput from "./DoubleNumberInput";
 
 type OscilatorProps = {
   wave: WaveForm;
   volume: number;
+  samples?: Float32Array;
   onWaveFormChanged?: (wave: WaveForm) => void;
   onVolumeChanged?: (volume: number) => void;
 };
 
 const VOLUME_MULTIPLIER = 100;
+const SAMPLE_STEP = 5000;
 
 function Oscilator({
   wave,
   volume,
+  samples,
   onWaveFormChanged = () => {},
   onVolumeChanged = () => {},
 }: OscilatorProps) {
@@ -24,19 +27,27 @@ function Oscilator({
     noise: "Random noise",
   };
 
+  const getChartData = () => {
+    const result: { sample: number }[] = [];
+
+    if (!samples) {
+      return result;
+    }
+
+    for (let i = 0; i < NUM_SAMPLES; i += SAMPLE_STEP) {
+      result.push({ sample: samples[i] });
+    }
+
+    return result;
+  };
+
   return (
     <Paper style={{ padding: "1rem", minHeight: 500 }} elevation={3}>
       <Grid container spacing={2} height={500} style={{ textAlign: "center" }}>
         <Grid item xs={11}>
           <ResponsiveContainer height="100%" width="100%">
             <LineChart
-              data={[
-                { sample: 5 },
-                { sample: 1 },
-                { sample: 0 },
-                { sample: 1 },
-                { sample: 4 },
-              ]}
+              data={getChartData()}
               margin={{
                 top: 5,
                 right: 30,

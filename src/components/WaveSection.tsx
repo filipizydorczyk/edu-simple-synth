@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MenuItem, Paper, Select } from "@mui/material";
-import { FREQUENCY, NUM_SAMPLES, SAMPLE_RATE, WaveForm } from "../hooks/synth";
+import { FREQUENCY, NUM_SAMPLES, SAMPLE_RATE, WaveForm } from "../hooks/useOscilator";
 import { Line, LineChart } from "recharts";
 import { WaveFromFunctions } from "../utils";
 
